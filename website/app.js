@@ -62,18 +62,6 @@ const postData = async (url = '', data = {}) => {
     }
 };
 
-/* Function to GET Project Data */
-const getData = async (url = '') => {
-    const res = await fetch(url);
-    try {
-        const data = await res.json();
-        console.log(data);
-    } catch (error) {
-        // appropriately handle the error
-        console.log('error', error);
-    }
-};
-
 const retrieveData = async () => {
     const res = await fetch('/getProjectData');
     try {
