@@ -40,6 +40,7 @@ function listening() {
 // Respond with JS object when a GET request is made to the homepage
 app.get('/getProjectData', function(req, res) {
     res.send(projectData);
+    console.log(projectData);
     console.log('datasend');
 });
 
@@ -53,7 +54,7 @@ function addEntry(req, res) {
         TEMP: req.body.temp
     };
     projectData.push(newEntry);
-    res.send(projectData); // ?was passiert hier?
+    res.send(projectData);
     console.log(projectData);
 }
 

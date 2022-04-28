@@ -14,8 +14,8 @@ document.querySelector('#generate').addEventListener('click', performAction);
 /* Function called by event listener */
 function performAction(e) {
     // Get ZIP from HTML
-    // const zipCode = document.querySelector('#zip').value;
-    const zipCode = '14167';
+    const zipCode = document.querySelector('#zip').value;
+    // const zipCode = '14167';
     getWeatherData(baseURL, zipCode, apiKey);
 }
 
@@ -28,13 +28,14 @@ const getWeatherData = async (baseURL, zipCode, apiKey) => {
         console.log(data);
         // 1. We can do something with our returned data here-- like chain promises!
         // Erhaltene Daten DANACH nach ProjectData schreiben
-        // // .then(function(data) {
+        // .then(function(data) {
         const feelings = document.querySelector('#feelings').value;
         const newEntry = postData('/addEntry', {
             date: newDate,
             feel: feelings,
             temp: data.main.temp
         });
+        retrieveData();
     } catch (error) {
         // appropriately handle the error
         console.log('Ein Fehler:', error);
@@ -58,7 +59,7 @@ const postData = async (url = '', data = {}) => {
         const newData = await res.json();
         console.log('akt daten:');
         console.log(newData);
-        return newData;
+        return newData; //! WOFÜR ?
     } catch (error) {
         console.log('error', error);
     }
@@ -74,6 +75,25 @@ const getData = async (url = '') => {
         // 1. We can do something with our returned data here-- like chain promises!
 
         // 2.
+    } catch (error) {
+        // appropriately handle the error
+        console.log('error', error);
+    }
+};
+
+const retrieveData = async () => {
+    const res = await fetch('/getProjectData');
+    try {
+        // Transform into JSON
+        const allData = await res.json();
+        console.log('bin hier');
+        console.log(allData);
+        // Write updated data to DOM elements
+        const last = allData.length - 1;
+        document.getElementById('temp').innerHTML =
+            Math.round(allData[last].TEMP) + '°';
+        document.getElementById('content').innerHTML = allData[last].FEEL;
+        document.getElementById('date').innerHTML = allData[last].DATE;
     } catch (error) {
         // appropriately handle the error
         console.log('error', error);
