@@ -29,21 +29,14 @@ function listening() {
     // console.log(server);
     console.log(`running on localhost: ${port}`);
 }
-/*
- *
- *
- * SERVER IS RUNNIG
- *
- *
- */
 
 // Respond with JS object when a GET request is made to the homepage
 app.get('/getProjectData', function(req, res) {
     res.send(projectData);
-    console.log(projectData);
-    console.log('datasend');
+    // console.log(projectData);
 });
 
+// Update JS object when a POST request is made to the homepage
 app.post('/addEntry', addEntry);
 
 function addEntry(req, res) {
@@ -57,32 +50,3 @@ function addEntry(req, res) {
     res.send(projectData);
     console.log(projectData);
 }
-
-/* TESTING */
-// respond with "hello world" when a GET request is made to the homepage
-app.get('/', function(req, res) {
-    res.send('hello world');
-    console.log('hello');
-});
-// Respond with JS object when a GET request is made to the homepage
-app.get('/all', function(req, res) {
-    res.send(projectData);
-});
-
-//
-//
-//
-// POSTDATA // MOVIE EXAMPLE
-app.post('/addMovie', addMovie);
-
-function addMovie(req, res) {
-    projectData.push(req.body);
-    console.log(projectData);
-}
-
-app.post('/add', function(req, res) {
-    let data = req.body;
-    let newEntry = { nummer: data.answer };
-    projectData.push(newEntry);
-    console.log(projectData);
-});

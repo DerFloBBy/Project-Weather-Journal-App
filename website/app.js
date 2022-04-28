@@ -15,30 +15,28 @@ document.querySelector('#generate').addEventListener('click', performAction);
 function performAction(e) {
     // Get ZIP from HTML
     const zipCode = document.querySelector('#zip').value;
-    // const zipCode = '14167';
     getWeatherData(baseURL, zipCode, apiKey);
 }
 
 /* Function to GET Web API Data*/
 const getWeatherData = async (baseURL, zipCode, apiKey) => {
-    // 1.
     const res = await fetch(baseURL + zipCode + '&appid=' + apiKey);
     try {
         const data = await res.json();
         console.log(data);
-        // 1. We can do something with our returned data here-- like chain promises!
-        // Erhaltene Daten DANACH nach ProjectData schreiben
-        // .then(function(data) {
+        // Get FEELINGS from HTML
         const feelings = document.querySelector('#feelings').value;
+        // Add newEntry to Server (POST)
         const newEntry = postData('/addEntry', {
             date: newDate,
             feel: feelings,
             temp: data.main.temp
         });
+        // Get Data from Server and Update UI with Recent Entry
         retrieveData();
     } catch (error) {
         // appropriately handle the error
-        console.log('Ein Fehler:', error);
+        console.log('error', error);
     }
 };
 
@@ -57,9 +55,8 @@ const postData = async (url = '', data = {}) => {
 
     try {
         const newData = await res.json();
-        console.log('akt daten:');
-        console.log(newData);
-        return newData; //! WOFÜR ?
+        // console.log(newData);
+        return newData;
     } catch (error) {
         console.log('error', error);
     }
@@ -67,14 +64,10 @@ const postData = async (url = '', data = {}) => {
 
 /* Function to GET Project Data */
 const getData = async (url = '') => {
-    // 1.
     const res = await fetch(url);
     try {
         const data = await res.json();
         console.log(data);
-        // 1. We can do something with our returned data here-- like chain promises!
-
-        // 2.
     } catch (error) {
         // appropriately handle the error
         console.log('error', error);
@@ -86,14 +79,13 @@ const retrieveData = async () => {
     try {
         // Transform into JSON
         const allData = await res.json();
-        console.log('bin hier');
         console.log(allData);
-        // Write updated data to DOM elements
+        // Write updated data (recent Entry) to DOM elements
         const last = allData.length - 1;
-        document.getElementById('temp').innerHTML =
+        document.querySelector('#temp').innerHTML =
             Math.round(allData[last].TEMP) + '°';
-        document.getElementById('content').innerHTML = allData[last].FEEL;
-        document.getElementById('date').innerHTML = allData[last].DATE;
+        document.querySelector('#content').innerHTML = allData[last].FEEL;
+        document.querySelector('#date').innerHTML = allData[last].DATE;
     } catch (error) {
         // appropriately handle the error
         console.log('error', error);
