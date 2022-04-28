@@ -1,5 +1,5 @@
 // Setup empty JS object to act as endpoint for all routes
-projectData = {};
+const projectData = [];
 
 // Require Express to run server and routes
 const express = require('express');
@@ -29,3 +29,59 @@ function listening() {
     // console.log(server);
     console.log(`running on localhost: ${port}`);
 }
+/*
+ *
+ *
+ * SERVER IS RUNNIG
+ *
+ *
+ */
+
+// Respond with JS object when a GET request is made to the homepage
+app.get('/getProjectData', function(req, res) {
+    res.send(projectData);
+    console.log('datasend');
+});
+
+app.post('/addEntry', addEntry);
+
+function addEntry(req, res) {
+    // console.log(req.body);
+    newEntry = {
+        DATE: req.body.date,
+        FEEL: req.body.feel,
+        TEMP: req.body.temp
+    };
+    projectData.push(newEntry);
+    res.send(projectData); // ?was passiert hier?
+    console.log(projectData);
+}
+
+/* TESTING */
+// respond with "hello world" when a GET request is made to the homepage
+app.get('/', function(req, res) {
+    res.send('hello world');
+    console.log('hello');
+});
+// Respond with JS object when a GET request is made to the homepage
+app.get('/all', function(req, res) {
+    res.send(projectData);
+});
+
+//
+//
+//
+// POSTDATA // MOVIE EXAMPLE
+app.post('/addMovie', addMovie);
+
+function addMovie(req, res) {
+    projectData.push(req.body);
+    console.log(projectData);
+}
+
+app.post('/add', function(req, res) {
+    let data = req.body;
+    let newEntry = { nummer: data.answer };
+    projectData.push(newEntry);
+    console.log(projectData);
+});
