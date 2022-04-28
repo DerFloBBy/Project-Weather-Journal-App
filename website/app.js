@@ -69,11 +69,10 @@ const retrieveData = async () => {
         const allData = await res.json();
         console.log(allData);
         // Write updated data (recent Entry) to DOM elements
-        const last = allData.length - 1;
         document.querySelector('#temp').innerHTML =
-            Math.round(allData[last].TEMP) + '°';
-        document.querySelector('#content').innerHTML = allData[last].FEEL;
-        document.querySelector('#date').innerHTML = allData[last].DATE;
+            Math.round(allData.TEMP) + '°';
+        document.querySelector('#content').innerHTML = allData.FEEL;
+        document.querySelector('#date').innerHTML = allData.DATE;
     } catch (error) {
         // appropriately handle the error
         console.log('error', error);
